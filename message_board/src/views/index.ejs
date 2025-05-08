@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Forum Messages</title>
+  </head>
+  <body>
+    <ul>
+      <h1><%= locals.title %></h1>
+      <% if (locals.messages.length == 0 ){ %>
+        <p>No messages available</p>
+      <%} %>
+
+      <%if(locals.messages.length > 0){%> <%for(let i = 0;i <
+      locals.messages.length; i++){ %>
+      <li>
+        <div>
+          <p><%= locals.messages[i].message %></p>
+          <p>By User: <%= locals.messages[i].username%></p>
+          <p>Date Posted: <%= locals.messages[i].added %></p>
+        </div>
+      </li>
+      <%} %> <%}%>
+    </ul>
+
+    <a href="/form">
+      <button>Go to Form</button>
+    </a>
+  </body>
+</html>
