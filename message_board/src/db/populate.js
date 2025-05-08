@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 console.log(process.env.DB_NAME);
 const SQL = `
+    DROP TABLE IF EXISTS messages;
+    
     CREATE TABLE IF NOT EXISTS messages (
         id INTEGER PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
         username VARCHAR(255),
