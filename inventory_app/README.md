@@ -35,3 +35,9 @@ When I am doing: /genre[]=Action&genre[]=Adventure
 It becomes annoying because I will need to find the genre_id to then do the sql statement: select game_id from game_genre where genre_name in (...)
 
 
+In the end, I just went with genre instead of genre[]. It makes it easier to do validation. I think validation validates it
+as a string. Express does not parse the HTTP body into the request object. Validation first does it work in the string format first then lets express parse the HTTP body into the request object.
+
+I also cleaned up the routes and controllers. Instead of having everything inside one controller or routes file, I separated into other files. 
+
+Overall, in this project, I got experience working with Postgres and handling creating database queries where deletion or creation impacts tables with foreign keys. 
