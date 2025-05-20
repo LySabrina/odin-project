@@ -1,0 +1,17 @@
+<% if(locals.genres){ %>
+<form action="/" method="GET">
+  <fieldset>
+    <legend>Genres</legend>
+    <% locals.genres.map((genre)=>{ %>
+    <div>
+      <input type="checkbox" name="genre[]" value="<%= genre.name %>" />
+      <label for="<%= genre.name %>"><%= genre.name %></label>
+    </div>
+    <% })%>
+    <button>Update</button>
+  </fieldset>
+</form>
+
+<%} else{ %>
+<p>Sorry, there's an issue with fetching genres</p>
+<% } %>

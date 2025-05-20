@@ -1,0 +1,26 @@
+{
+  "name": "inventory_app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev-populate": "NODE_ENV=dev node src/db/populate.js",
+    "dev": "NODE_ENV=dev node --watch app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "Inventory application from odin project",
+  "dependencies": {
+    "dotenv": "^16.5.0",
+    "ejs": "latest",
+    "express": "latest",
+    "express-validator": "latest",
+    "pg": "latest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.27.0",
+    "eslint": "^9.27.0",
+    "globals": "^16.1.0"
+  }
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Genre Form</title>
+  </head>
+  <body>
+    <p>Adding new Genre</p>
+    <form method="POST" action="/form-genre">
+      <input type="text" name="genre" id="genre" placeholder="Add new genre" />
+      <%- include("./partials/inputErrors") %>
+
+      <button>Submit</button>
+    </form>
+
+    <p>Delete Genre</p>
+    <select name="genre" id="deleteGenre">
+      <option value="" selected disabled>Choose option</option>
+      <% if(locals.genres){%> <% locals.genres.map((genre)=>{ %>
+      <option value="<%= genre.name %>"><%=genre.name%></option>
+      <%}) %> <%}%>
+    </select>
+    <button id="submitSelect">Delete Selected Genre</button>
+
+    <script>
+      const deleteSelect = document.querySelector("#deleteGenre");
+      console.log(deleteSelect);
+      deleteSelect.addEventListener("change", (e) => {
+        const value = e.target.value;
+      });
+
+      const submitSelect = document.querySelector("#submitSelect");
+      submitSelect.addEventListener("click", () => {
+        if (deleteSelect.value === "") {
+          alert("PICK A GENRE");
+          return;
+        }
+        fetch(`http://localhost:8080/form-genre/${deleteSelect.value}`, {
+          method: "DELETE",
+        }).then((res) => {
+          console.log(res);
+          if (res.redirected) {
+            window.location.href = res.url;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

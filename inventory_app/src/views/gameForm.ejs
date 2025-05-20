@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Game Form</title>
+  </head>
+  <body>
+    <form action="/form-game" method="POST">
+      <label for="name">Game Name:</label>
+      <input type="text" name="name" id="name" />
+
+      <label for="date">Release Date:</label>
+      <input type="date" name="date" id="date" />
+
+      <fieldset id="fieldGenres">
+        <legend>Select Genres</legend>
+        <%for(let genre of genres){%>
+
+        <input
+          value="<%=genre.name%>"
+          id="<%=genre.name%>"
+          type="checkbox"
+          name="genre"
+        />
+        <label for="<%=genre.name%>"><%=genre.name%></label>
+        <%}%>
+      </fieldset>
+
+      <fieldset id="fieldDevs">
+        <legend>Select Developers that worked on the game:</legend>
+        <%for(let dev of devs){ %>
+        <div>
+          <label for="<%=dev.id%>">
+            <%=dev.first_name%> <%=dev.last_name%> - <%=dev.role_level %>
+          </label>
+          <input
+            type="checkbox"
+            id="<%=dev.id%>"
+            value="<%=dev.id%>"
+            name="dev"
+          />
+        </div>
+        <%}%>
+      </fieldset>
+      <%- include("./partials/inputErrors") %>
+
+      <button>Add new game</button>
+    </form>
+
+    <p>Delete Games:</p>
+    <select name="game" id="deleteGame">
+      <%for(let game of games){%>
+      <option value="<%=game.id%>"><%=game.name%></option>
+      <%}%>
+    </select>
+    <button id="deleteBtn">Delete Game</button>
+
+    <script>
+      const deleteBtn = document.querySelector("#deleteBtn");
+      const gameDelete = document.querySelector("#deleteGame");
+
+      deleteBtn.addEventListener("click", (e) => {
+        if (gameDelete.value == "") {
+          alert("PICK A GAME TO DELETE");
+          return;
+        }
+        console.log('id from form', gameDelete.value);
+        fetch(`http://localhost:8080/form-game/${gameDelete.value}`, {
+          method: "DELETE",
+        }).then((res) => {
+          if (res.redirected) {
+            window.location.href = res.url;
+          }
+        });
+      });
+      // Below is not needed because the form keeps track of whats checked and not checked
+      // IF checked, it will place inside the HTTP body
+      // const checkedGenres = [];
+      // const checkboxes = document.querySelectorAll("#fieldGenres > input");
+
+      // for (let checkbox of checkboxes) {
+      //   checkbox.addEventListener("change", (e) => {
+      //     const target = e.target;
+      //     if (target.checked) {
+      //       checkedGenres.push(target.value);
+      //     } else {
+      //       const genreIndex = checkedGenres.indexOf(target.value);
+      //       checkedGenres.splice(genreIndex, 1);
+      //     }
+      //     console.log(checkedGenres);
+      //   });
+      // }
+
+      // const checkedDevs = [];
+      // const checkboxDevs = document.querySelectorAll(
+      //   "#fieldDevs > div >  input"
+      // );
+
+      // for (const dev of checkboxDevs) {
+      //   dev.addEventListener("change", (e) => {
+      //     const target = e.target;
+      //     if (target.checked) {
+      //       checkedDevs.push(target.value);
+      //     } else {
+      //       const devIndex = checkedDevs.indexOf(target);
+      //       checkedDevs.splice(devIndex, 1);
+      //     }
+      //     console.log(checkedDevs);
+      //   });
+      // }
+    </script>
+  </body>
+</html>
