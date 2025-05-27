@@ -6,26 +6,53 @@
     <title>Forum Messages</title>
   </head>
   <body>
-    <ul>
-      <h1><%= locals.title %></h1>
-      <% if (locals.messages.length == 0 ){ %>
-        <p>No messages available</p>
-      <%} %>
+    <h1>Message Forum Boards</h1>
+    <% if(!locals.user){%>
+    <a href="/login">
+      <button>Login Here</button>
+    </a>
+    <a href="/sign-up">
+      <button>Sign Up Here</button>
+    </a>
+    <%} %> <%if(locals.user){%>
+    <h1>Welcome back <%=user.username%></h1>
+    <% if(!locals.user.ismember || locals.user.role_id != 3){%>
+    <a href="secret-member">Click here to be secret member!</a>
+    <%}%>
+    <a href="/log-out">Logout</a>
 
-      <%if(locals.messages.length > 0){%> <%for(let i = 0;i <
-      locals.messages.length; i++){ %>
-      <li>
-        <div>
-          <p><%= locals.messages[i].message %></p>
-          <p>By User: <%= locals.messages[i].username%></p>
-          <p>Date Posted: <%= locals.messages[i].added %></p>
-        </div>
-      </li>
-      <%} %> <%}%>
+    <%- include("./partials/errors.ejs")%> <%-
+    include("./partials/messageForm.ejs")%> <%}%>
+    <ul>
+      <%if(locals.messages){%> <%for(const message of messages){%> <%-
+      include("./partials/message.ejs", {message:message}); %> <%}%> <% }%>
     </ul>
 
-    <a href="/form">
-      <button>Go to Form</button>
-    </a>
+    <script>
+      const deleteBtns = document.querySelectorAll(".deleteBtn");
+
+      if (deleteBtns) {
+        for (const deleteBtn of deleteBtns) {
+          deleteBtn.addEventListener("click", (e) => {
+            const btn = e.target;
+            const message_id = btn.parentElement.parentElement.id;
+
+            fetch(`http://localhost:8080/delete/${message_id}`, {
+              method: "DELETE",
+            })
+              .then((res) => {
+                if (!res.ok) {
+                  throw new Error("Http status failed: " + res.status);
+                } else {
+                  return res.text();
+                }
+              })
+              .then((html) => {
+                document.documentElement.innerHTML = html;
+              });
+          });
+        }
+      }
+    </script>
   </body>
 </html>

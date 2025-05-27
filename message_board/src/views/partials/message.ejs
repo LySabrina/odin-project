@@ -1,0 +1,25 @@
+<li id="<%=message.message_id%>">
+  <div>
+    <% if(locals.user && locals.user.role_id === 3){%>
+    <button class="deleteBtn">Delete</button>
+    <%}%> <%if(locals.user){%>
+    <div>
+      <span><button>Upvote</button></span>
+      <span><button>Downvote</button></span>
+    </div>
+    <%}%>
+
+    <p><%=message.points%></p>
+  </div>
+
+  <div>
+    <p>
+      <%=message.message%>
+      <span
+        >By: <%if(locals.user && locals.user.ismember){%>
+        <%=locals.message.username%> <%}else{%> Anon <%} %>
+      </span>
+    </p>
+    <p>Post Date: <%=message.added%></p>
+  </div>
+</li>

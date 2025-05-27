@@ -1,0 +1,9 @@
+<%if(locals.user.ismember){%>
+<form method="POST" action="/new-message">
+  <label for="message">Enter your message:</label>
+  <input type="text" name="message" id="message" />
+
+  <%- include("./errors.ejs")%>
+  <button>Submit</button>
+</form>
+<%}%>

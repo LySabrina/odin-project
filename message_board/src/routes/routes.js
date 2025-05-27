@@ -4,13 +4,13 @@ import { body, validationResult } from "express-validator";
 
 const router = Router();
 
-router.get("/", controller.getAllMessages);
-router.get("/form", controller.getFormPage);
-router.post(
-  "/new",
-  body("message").notEmpty(),
-  body("username").notEmpty(),
-  controller.processFormPage
-);
+// router.post(
+//   "/new",
+//   body("message").notEmpty(),
+//   body("username").notEmpty(),
+//   controller.processFormPage
+// );
+
+
 
 export default router;
