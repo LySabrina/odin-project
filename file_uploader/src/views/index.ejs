@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Index</title>
+  </head>
+  <body>
+    <%if(!locals.user){%>
+    <h1>
+      Welcome to File_Uploader! Please Login or Sign Up to access the tools
+    </h1>
+    <a href="/login">Login</a>
+    <a href="/signup">Signup</a>
+    <%}else{%>
+    <form method="POST" action="/logout">
+      <button>Log Out</button>
+    </form>
+
+    <%- include("./partials/createFolder.ejs")%> <%-
+    include("./partials/createFile.ejs")%> <%}%>
+  </body>
+</html>

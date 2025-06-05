@@ -1,0 +1,19 @@
+<h2>Folder Form</h2>
+<form method="POST" action="/createFolder">
+  <input
+    type="text"
+    name="folder"
+    id="folder"
+    placeholder="Enter Folder Name"
+  />
+
+  <button>Submit</button>
+
+  <%if(locals.folderErrors){%>
+  <ul>
+    <%for(const error of folderErrors){%>
+    <li><%=error.msg%></li>
+    <% }%>
+  </ul>
+  <%}%>
+</form>

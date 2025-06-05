@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Signup</title>
+  </head>
+  <body>
+    <h1>Sign UP Form</h1>
+    <form action="/signup" method="POST">
+      <input type="email" name="email" id="email" placeholder="email" />
+      <input type="text" name="username" id="username" placeholder="username" />
+      <input type="password" name="password" placeholder="password" />
+      <input
+        type="password"
+        name="confirmPassword"
+        id="confirmPassword"
+        placeholder="confirm password"
+      />
+
+      <%if(locals.errors){%> <%- include("./partials/errors.ejs")%> <%}%>
+      <button>Submit</button>
+    </form>
+  </body>
+</html>

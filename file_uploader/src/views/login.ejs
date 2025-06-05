@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login</title>
+  </head>
+  <body>
+    <h1>Login Form</h1>
+    <form method="POST" action="/login">
+      <input
+        type="text"
+        name="username"
+        id="username"
+        placeholder="Enter Username or Email"
+      />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        placeholder="Enter Password"
+      />
+
+      <%if(locals.messages){%> <%for(const message of messages){%>
+      <p><%=message%></p>
+      <%}%> <%}%> <%if(locals.errors){%> <%for(const error of errors){%>
+      <li><%=error.msg%></li>
+      <%}%> <%}%>
+      <button>Submit</button>
+    </form>
+  </body>
+</html>
