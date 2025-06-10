@@ -1,0 +1,13 @@
+<%if(locals.folders){%>
+<ul>
+  <%for(const folder of folders){%>
+  <li>
+    <div id="<%=folder.folder_id%>">
+      <a href="/folder/<%=folder.folder_id%>"> <%=folder.folder_name %> </a>
+
+      <button class="deleteFolderBtn">Delete</button>
+    </div>
+  </li>
+  <%}%>
+</ul>
+<%}%>

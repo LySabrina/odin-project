@@ -27,7 +27,7 @@ model User {
 
 model Folder {
   folder_id   Int    @id @default(autoincrement())
-  folder_name String @unique
+  folder_name String
   files       File[]
 
   user   User @relation(fields: [userId], references: [user_id])
@@ -42,7 +42,7 @@ model File {
   file_upload_date DateTime
   file_location    String
 
-  folder   Folder @relation(fields: [folderId], references: [folder_id])
+  folder   Folder @relation(fields: [folderId], references: [folder_id], onDelete: Cascade)
   folderId Int
 
   @@map("files")

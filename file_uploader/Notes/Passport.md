@@ -26,3 +26,9 @@ When it hits eithr redirects, res.redirect() internally does the following:
 Everytime we make a new HTTP request, Express will always make new req and res object. It will never save the old one.
 
 That is why when we try to access res.locals upon a new HTTP request, the data is gone.
+
+> How we stay logged in after logging in?
+
+The reason why you are able to stay logged in is because app.get("/") checks if we have req.passport. It's there and has a user property. So when we redirect to another HTTP request which in this is the root.
+
+It will run the app.get("/") and always put a user inside the locals.

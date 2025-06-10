@@ -75,6 +75,7 @@ export function validateFolderForm() {
         const folder = await prisma.folder.findFirst({
           where: {
             folder_name: folder_name,
+            userId: req.user.user_id,
           },
         });
 

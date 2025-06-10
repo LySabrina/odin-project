@@ -13,10 +13,12 @@ import authenticate from "./src/middleware/authenticate.js";
 import path from "node:path";
 import fileRoutes from "./src/routes/fileRoutes.js";
 import folderRoutes from "./src/routes/folderRoutes.js";
-
+import { getFolders } from "./src/controllers/folderController.js";
 dotenv.config({ path: `.env.${process.env.NODE_ENV}` });
 const prisma = new PrismaClient();
 const __dirname = import.meta.dirname;
+const assetsPath = path.join(__dirname, "public");
+
 export const app = express();
 app.use(
   session({
@@ -61,16 +63,29 @@ passport.deserializeUser(async (user_id, done) => {
   }
 });
 
-app.get("/", (req, res) => {
+/**
+ * Added this because, its annoying to keep setting
+ * res.locals.user = req.user
+ *
+ * Also, I need to do this because for some reason, when user are uploading a file.
+ * The multer upload fn does not have access to the user
+ * This may be because when we are navigating to the /upload-file, I am not passing
+ * the data? This may need more investigation
+ */
+app.use("/", (req, res, next) => {
   if (req.session.passport) {
     res.locals.user = req.user;
     // app.locals.user = req.user;
   }
-  res.render("index");
+  next();
 });
-app.use(express.urlencoded({ extended: true }));
 
+app.get("/", getFolders, (req, res) => res.render("index"));
+
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static(assetsPath));
 app.use(fileRoutes);
 app.use(authRoutes);
 app.use(folderRoutes);
+app.use(fileRoutes);
 app.listen(8080);

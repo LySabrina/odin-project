@@ -1,6 +1,7 @@
 import { validationResult } from "express-validator";
 import { PrismaClient } from "../../generated/prisma/client.js";
 import bcrypt from "bcryptjs";
+import { checkUserFolder } from "../utilities/FSUtilities.js";
 const prisma = new PrismaClient();
 
 export async function getLogin(req, res) {
@@ -32,7 +33,7 @@ export async function postLogin(req, res, next) {
   }
 }
 
-export async function postSignuo(req, res) {
+export async function postSignup(req, res) {
   try {
     const isValid = validationResult(req);
     if (!isValid.isEmpty()) {
@@ -49,6 +50,7 @@ export async function postSignuo(req, res) {
       },
     });
 
+    await checkUserFolder(username);
     res.redirect("/");
   } catch (error) {
     res.send("Server error", error);

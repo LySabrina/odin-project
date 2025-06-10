@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>File Form</title>
-  </head>
-  <body>
-    <h1>File Form</h1>
-    <form action="/createFile" method="POST" enctype="multipart/form-data">
-      <label for="file">Upload your file:</label>
-      <input type="file" name="file" id="file" />
-      <select name="folder" id="folder"></select>
-    </form>
-  </body>
-</html>
+<h1>File Form</h1>
+<form
+  action="/upload-file"
+  method="POST"
+  enctype="multipart/form-data"
+  id="upload-file"
+>
+  <input
+    type="text"
+    value="<%=folder.folder_name%>"
+    name="folder_name"
+    hidden
+  />
+  <input type="text" name="folder_id" value="<%=folder.folder_id%>" hidden />
+  <label for="file">Upload your file:</label>
+
+  <input type="file" name="file" id="file" multiple />
+
+  <button>Submit</button>
+</form>

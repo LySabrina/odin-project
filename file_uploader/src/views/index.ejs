@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="/style.css" />
     <title>Index</title>
   </head>
   <body>
@@ -17,7 +18,25 @@
       <button>Log Out</button>
     </form>
 
-    <%- include("./partials/createFolder.ejs")%> <%-
-    include("./partials/createFile.ejs")%> <%}%>
+    <%- include("./partials/createFolder.ejs")%> <%if(locals.folders){%>
+    <%-include("./partials/folderList.ejs",)%> <%}%> <%}%>
+
+    <script>
+      const deleteFolderBtns = document.querySelectorAll(".deleteFolderBtn");
+      for (const deleteBtn of deleteFolderBtns) {
+        deleteBtn.addEventListener("click", (e) => {
+          const folderId = e.target.parentElement.id;
+          fetch(`http://localhost:8080/folder/${folderId}`, {
+            method: "DELETE",
+          })
+            .then((res) => {
+              const redirectURL = res.url;
+              console.log(redirectURL);
+              window.location.replace(redirectURL);
+            })
+            .catch((err) => console.error(err));
+        });
+      }
+    </script>
   </body>
 </html>

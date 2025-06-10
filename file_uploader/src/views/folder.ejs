@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Folder - <%=folder.folder_name%></title>
+  </head>
+  <body>
+    <h1><%=folder.folder_name%></h1>
+    <%- include("./partials/createFile.ejs", { folder : folder,
+    folder_name:folder.folder_name, folder_id:folder.folder_id})%>
+    <%if(folder.files.length > 0){%>
+    <h3>Files Inside This Folder:</h3>
+    <ul>
+      <%for(const file of folder.files){%>
+      <li>
+        <a href="/file/<%=file.file_id%>"> <%=file.file_name%> </a>
+      </li>
+      <%}%>
+    </ul>
+    <%}else{%>
+    <h4>No files inside this folder</h4>
+    <%}%>
+  </body>
+</html>

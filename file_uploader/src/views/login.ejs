@@ -7,26 +7,28 @@
   </head>
   <body>
     <h1>Login Form</h1>
-    <form method="POST" action="/login">
-      <input
-        type="text"
-        name="username"
-        id="username"
-        placeholder="Enter Username or Email"
-      />
-      <input
-        type="password"
-        name="password"
-        id="password"
-        placeholder="Enter Password"
-      />
+    <div id="form-container">
+      <form method="POST" action="/login">
+        <input
+          type="text"
+          name="username"
+          id="username"
+          placeholder="Enter Username or Email"
+        />
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Enter Password"
+        />
 
-      <%if(locals.messages){%> <%for(const message of messages){%>
-      <p><%=message%></p>
-      <%}%> <%}%> <%if(locals.errors){%> <%for(const error of errors){%>
-      <li><%=error.msg%></li>
-      <%}%> <%}%>
-      <button>Submit</button>
-    </form>
+        <%if(locals.messages){%> <%for(const message of messages){%>
+        <p><%=message%></p>
+        <%}%> <%}%> <%if(locals.errors){%> <%for(const error of errors){%>
+        <li><%=error.msg%></li>
+        <%}%> <%}%>
+        <button>Submit</button>
+      </form>
+    </div>
   </body>
 </html>
