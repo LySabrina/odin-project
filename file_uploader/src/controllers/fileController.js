@@ -57,3 +57,33 @@ export async function getFile(req, res) {
   const file = { ...file_info, ...fileData };
   res.render("file", { file: file });
 }
+
+/**
+ * Deletes a file
+ * @param {Express.Request} req HTTP Request
+ * @param {Express.Response} res HTTP Response
+ */
+export async function deleteFile(req, res) {
+  const { file_id } = req.params;
+  const user = req.user;
+  try {
+    const file = await prisma.file.delete({
+      where: {
+        file_id: parseInt(file_id),
+      },
+      include: {
+        folder: true,
+      },
+    });
+    console.log(file, user);
+    await FSUtilities.deleteFile(
+      file.file_name,
+      file.folder.folder_name,
+      user.username
+    );
+    res.redirect(`/folder/${file.folder.folder_id}`);
+  } catch (error) {
+    console.error(error);
+    res.redirect("/");
+  }
+}

@@ -146,3 +146,19 @@ function findFileType(extension) {
       return "video/mov";
   }
 }
+
+/**
+ * Deletes a file that belongs to a folder that belongs to a user
+ * @param {string} file_name the file to be deleted
+ * @param {string} folder_name the folder that contains the file
+ * @param {string} username the user that owns both the file and folder
+ */
+export async function deleteFile(file_name, folder_name, username) {
+  try {
+    // figure ouut why it deleted the folders
+    const path = `${cwd()}/${username}/${folder_name}/${file_name}`;
+    await fs.unlink(path);
+  } catch (error) {
+    console.error(error);
+  }
+}

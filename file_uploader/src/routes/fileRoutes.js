@@ -11,4 +11,5 @@ fileRoutes.post(
 );
 
 fileRoutes.get("/file/:file_id", fileController.getFile);
+fileRoutes.delete("/file/:file_id", fileController.deleteFile);
 export default fileRoutes;

@@ -11,5 +11,21 @@
     <p>Upload Location: <%=file.file_location%></p>
     <p>Your file size is: <%=file.file_size%></p>
     <img src="data:<%=file.file_type%>;base64,<%=file.file_content%>" alt="" />
+
+    <button id="deleteFileBtn">DELETE THIS FILE</button>
+
+    <script>
+      const deleteFileBtn = document.querySelector("#deleteFileBtn");
+      deleteFileBtn.addEventListener("click", (e) => {
+        fetch("http://localhost:8080/file/<%=file.file_id%>", {
+          method: "DELETE",
+        })
+          .then((res) => {
+            const redirectURL = res.url;
+            window.location.href = redirectURL;
+          })
+          .catch((err) => console.error(err));
+      });
+    </script>
   </body>
 </html>
