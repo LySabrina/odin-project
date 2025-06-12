@@ -1,8 +1,15 @@
 import { PrismaClient } from "../../generated/prisma/client.js";
 import * as FSUtilities from "../utilities/FSUtilities.js";
+
+/**
+ * @file fileController used to handle all CRUD operations dealing with Files
+ * @author lysabrina
+ */
+
 const prisma = new PrismaClient();
 /**
- * On upload
+ * @summary Handles POST creation of files
+ * @description
  * @param {*} req
  * @param {*} res
  */
@@ -71,17 +78,19 @@ export async function deleteFile(req, res) {
       where: {
         file_id: parseInt(file_id),
       },
-      include: {
-        folder: true,
-      },
     });
-    console.log(file, user);
-    await FSUtilities.deleteFile(
-      file.file_name,
-      file.folder.folder_name,
-      user.username
-    );
-    res.redirect(`/folder/${file.folder.folder_id}`);
+    const split = file.file_location.split("/");
+    const folder_name = split[split.length - 1];
+    console.log("FOLDER NAME: ", folder_name);
+    await FSUtilities.deleteFile(file.file_name, folder_name, user.username);
+
+    /**
+     * BUG: when user deletes their file, the file AND THE FOLDER is deleted. Folder being deleted is not an intended bug. This happens because:
+     * Since the original request had an action of "DELETE", when we redirect, it saves that action method and when we redirect,
+     * It essentially calls: DELETE /folder/2 that is why the file and folder are deleted sequentially
+     * Hence I must change the redirect to a 300. The question is why is POST-redirect does not activate post again?
+     */
+    res.redirect(303, `/folder/${file.folderId}`);
   } catch (error) {
     console.error(error);
     res.redirect("/");

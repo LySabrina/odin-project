@@ -156,7 +156,8 @@ function findFileType(extension) {
 export async function deleteFile(file_name, folder_name, username) {
   try {
     // figure ouut why it deleted the folders
-    const path = `${cwd()}/${username}/${folder_name}/${file_name}`;
+    const path = `${cwd()}/Data/${username}/${folder_name}/${file_name}`;
+    console.log("PATH BEING DELETED:", path);
     await fs.unlink(path);
   } catch (error) {
     console.error(error);

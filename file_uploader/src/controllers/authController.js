@@ -2,8 +2,19 @@ import { validationResult } from "express-validator";
 import { PrismaClient } from "../../generated/prisma/client.js";
 import bcrypt from "bcryptjs";
 import { checkUserFolder } from "../utilities/FSUtilities.js";
-const prisma = new PrismaClient();
 
+/**
+ * @file authController contains middleware functions to handle CRUD operations dealing with authentication
+ * @author lysabrina
+ */
+
+const prisma = new PrismaClient(); // PrismaClient to use the generated Postgres tables
+
+/**
+ 
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ */
 export async function getLogin(req, res) {
   const messages = req.session.messages || [];
 
@@ -11,6 +22,12 @@ export async function getLogin(req, res) {
 
   res.render("login", { messages });
 }
+
+/**
+ * @summary Handles the GET request to Sign Up Page
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ */
 export async function getSignUp(req, res) {
   res.render("signup");
 }
@@ -33,6 +50,15 @@ export async function postLogin(req, res, next) {
   }
 }
 
+/**
+ * @summary Handles the POST of Sign Up
+ * @description Middleware checks if the inputs are valid and if they are not, re-render the Sign Up page and pass errors to tell the user.
+ * If no errors, grabs the credentials (username, password, email) from the req.body then uses Prisma client to create a user.
+ * Finally, use FSUtilities to create a folder with their username where their files are stored.
+ * Then redirects them to the home page where they must login
+ * @param {Express.Request} req
+ * @param {Express.Response} res
+ */
 export async function postSignup(req, res) {
   try {
     const isValid = validationResult(req);
@@ -59,8 +85,10 @@ export async function postSignup(req, res) {
 }
 
 /**
- * Internally calls Passport logout() function
- * Passport logout() function will remove the req.user property and clear the login session
+ * @summary Handles POST Log Out
+ * @description Calls Passport.logout() in which it will remove req.user property and clear the login session.
+ *
+ *  Finally user is redirected back to the home page
  * @param {*} req
  * @param {*} res
  */

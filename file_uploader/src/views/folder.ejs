@@ -6,6 +6,7 @@
     <title>Folder - <%=folder.folder_name%></title>
   </head>
   <body>
+    <a href="/">Go back home</a>
     <h1><%=folder.folder_name%></h1>
     <%- include("./partials/createFile.ejs", { folder : folder,
     folder_name:folder.folder_name, folder_id:folder.folder_id})%>
