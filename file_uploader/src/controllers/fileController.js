@@ -9,12 +9,14 @@ import * as FSUtilities from "../utilities/FSUtilities.js";
 const prisma = new PrismaClient();
 /**
  * @summary Handles POST creation of files
- * @description
- * @param {*} req
- * @param {*} res
+ * @description Utilizes multer which reads forms that have enctype = multipart. Multer will input a property called "file" onto the req. 
+ * From this file property, I grab its information then use these information to create an entry into the File table 
+ * Finally, the user will be redirected back to the folder directory they are in that the file lives under 
+ * @param {Express.Request} req
+ * @param {Express.Response} res
  */
 export async function postCreateFile(req, res) {
-  // below will not print anything b/c form is multipart while the whole app uses urlencoded so only multer can prcoess multipart
+  // Attempting to do req.body will not work as multer specifically targets mutlipart type forms so trying: req.body.folder_id will not work 
   const folder_id = req.folder_id;
 
   const { file_name, file_location } = req.file;
@@ -36,9 +38,11 @@ export async function postCreateFile(req, res) {
 }
 
 /**
- * Finds the file associated with the id and sends the file information.
- * File Information includes: file_name, file_location, file_upload_date, size of file, file contents
+ * @summary Finds the file associated with the id and sends the file information.
+ * @description Given a file_id, searches for that file in the database and on the file system
  *
+ * File Information returned includes: file_name, file_location, file_upload_date, size of file, file contents
+ * Finally renders the file.ejs page with the file information 
  * Example of endpoints: /folder/1, /folder/2
  *
  * @param {Express.Request} req http request
@@ -66,7 +70,8 @@ export async function getFile(req, res) {
 }
 
 /**
- * Deletes a file
+ * @summary Deletes a file by id 
+ * @description Given an id, delete it then on the file system, delete that file associated with the user 
  * @param {Express.Request} req HTTP Request
  * @param {Express.Response} res HTTP Response
  */

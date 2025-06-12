@@ -2,6 +2,11 @@ import multer from "multer";
 import { cwd } from "node:process";
 
 /**
+ * @file Configure multer and return instance of it 
+ * Configuring multer to use the file system to store files and only accept certain files
+ */
+
+/**
  * By default, multer.diskStorage pases a req and file
  * Some reason, the body is empty
  */

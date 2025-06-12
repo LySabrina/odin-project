@@ -1,8 +1,21 @@
 import { validationResult } from "express-validator";
 import * as FSUtilities from "../utilities/FSUtilities.js";
 import { PrismaClient } from "../../generated/prisma/client.js";
+
+/**
+ * @file folderController used to handle CRUD operations dealing with folders
+ * @author lysabrina
+ */
 const prisma = new PrismaClient();
 
+
+/**
+ * @summary Handles POST to create a new folder 
+ * @param {Express.Request} req  
+ * @param {Express.Response} res 
+ *
+ *
+ */
 export async function postCreateFolder(req, res, next) {
   const isValid = validationResult(req);
   if (!isValid.isEmpty()) {
@@ -41,6 +54,12 @@ export async function postCreateFolder(req, res, next) {
   // EDIT HERE TO REDIRECT
 }
 
+/*
+ * @summary Gets folders associated with a user 
+ * @param {Express.Request} req 
+ * @param {Express.Request} res
+ * @param {Express.NextFunction} next middleware 
+ */
 export async function getFolders(req, res, next) {
   if (req.user) {
     const userId = req.user.user_id;
@@ -51,7 +70,6 @@ export async function getFolders(req, res, next) {
           userId: userId,
         },
       });
-      console.log("HEEE");
       console.log(folders);
       res.locals.folders = folders;
     }
@@ -60,9 +78,10 @@ export async function getFolders(req, res, next) {
 }
 
 /**
- * Edit here
- * @param {*} req
- * @param {*} res
+ * @summary Gets a single folder that belongs to the user 
+ * @description Gets a folder that is associated with a user. If the user is not logged in, warn the user and redirect them to the login page 
+ * @param {Express.Request} req
+ * @param {Express.Response} res
  */
 export async function getFolder(req, res) {
   if (!req.user) {
@@ -70,7 +89,6 @@ export async function getFolder(req, res) {
     return res.redirect("/login");
   }
   const { folder_id } = req.params;
-  console.log("my usser", req.user);
 
   const folder = await prisma.folder.findUniqueOrThrow({
     select: {
@@ -88,15 +106,18 @@ export async function getFolder(req, res) {
       folder_id: parseInt(folder_id),
     },
   });
-  console.log("folder", folder);
 
   res.render("folder", { folder: folder });
 }
 
 /**
- * Delete a folder with the folder id and the user_id
+ * @summary Deletes a folder by id that belongs to a user 
+ * @decription Deletes a folder that uses the file id and the user id. Next, it calls the FSUtilities.deleteFolder() to delete on
+ * the file system. Finally, it redirects the user back to the home page. 
  * User_id is needed because a different user may create a HTTP request
  * to delete a folder they may not have permission to delete
+ * @param {Express.Request} req
+ * @param {Express.Response} res
  */
 export async function deleteFolder(req, res) {
   try {
@@ -105,7 +126,6 @@ export async function deleteFolder(req, res) {
     const folder_id = parseInt(req.params.folder_id);
 
     const user = req.user;
-    console.log("user fro mdelete ", user);
     const deletedFolder = await prisma.folder.delete({
       where: {
         folder_id: folder_id,
@@ -113,8 +133,6 @@ export async function deleteFolder(req, res) {
       },
     });
 
-    console.log("deleted folder - ", deletedFolder);
-    console.log(folder_id);
     await FSUtilities.deleteFolder(deletedFolder.folder_name, user.username);
 
     res.redirect("/");

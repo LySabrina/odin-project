@@ -1,7 +1,6 @@
 /**
- * Authenticate Middleware
- * Checks whether the username, password are correct
- *
+ * @file Authenticate Middleware functions
+ * This file provides authentication middleware functions to be specifically used by Passport.js for the LocalStrategy
  */
 
 import bcrypt from "bcryptjs";
@@ -11,7 +10,8 @@ import { PrismaClient } from "../../generated/prisma/client.js";
 const prisma = new PrismaClient();
 
 /**
- * Authenticate users from username (or email) and password. Checks if either the username or email is valid. Then compares the password with one another.
+ * @summary Authentication method to be used for Passport Local Strategy
+ * @description Authenticate users from username (or email) and password. Checks if either the username or email is valid. Then compares the password with one another.
  * @param {string} username provided username or email format
  * @param {string} password provided password that is not yet hashed
  * @param {Function} done next middleware function

@@ -4,6 +4,9 @@ import { validateLogin, validateSignup } from "../middleware/validate.js";
 
 import passport from "passport";
 
+/**
+ * @file authRoutes handles auth endpoints and calls the appropriate authController function to handle 
+ */
 const authRoutes = Router();
 
 authRoutes.get("/login", authController.getLogin);

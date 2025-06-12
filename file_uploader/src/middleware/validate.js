@@ -1,8 +1,18 @@
 import { body, oneOf } from "express-validator";
 import { PrismaClient } from "../../generated/prisma/client.js";
 
+/**
+ * @file Validation middleware for authentication
+ */
+
 const prisma = new PrismaClient();
 
+/**
+ * @summary Validates the username and password of the login page
+ * @description Validates the login by checking if the input with name = username is either email or username. If it's a username, ensure it has a min length of 2 and if email, ensures it's a valid email and normalize email 
+ *
+ * Also checks if the password is not emtpy 
+ */
 export function validateLogin() {
   return [
     oneOf(
@@ -18,6 +28,13 @@ export function validateLogin() {
   ];
 }
 
+/**
+ * @summary Valideates the email, username, password, confirmPassword of the sign up page
+ * @description  Validates the sign up by checking if the email is valid, normalized and uses a custom validation that checks if the email is not in use.
+ * Checks if the username is at least length 2 to 25 and checks if the username is not in use.
+ * Checks if the password is at least length 8 to 25 and has at least one number 
+ * Checks if the confirmPassword matches the password 
+ */
 export function validateSignup() {
   return [
     body("email")
@@ -66,6 +83,10 @@ export function validateSignup() {
   ];
 }
 
+/**
+ * @summary Validates the Folder Form 
+ * @description Ensures that the name of the folder is not empty and the folder does not exist with the associated user 
+ */
 export function validateFolderForm() {
   return [
     body("folder")

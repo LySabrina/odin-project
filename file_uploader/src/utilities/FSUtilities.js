@@ -4,10 +4,18 @@ import path from "node:path";
 import { createReadStream } from "node:fs";
 import { Buffer } from "node:buffer";
 /**
- * Creates a folder with inputted folder name
- * Performs existence checks before creation and ensure that it avoids
+ * @file FSUtilities file that contains functions related to CRUD for the file system 
+ * 
+ */
+
+
+/**
+ * @summary Creates a folder with inputted folder name
+ * @description Performs existence checks before creation and ensure that it avoids
  * duplicate folder name
+ *
  * @param {string} folder_name name of the new folder
+ * @param {string} username username of user
  * @returns {boolean} determines whether folder creation was successful
  */
 export async function createFolder(folder_name, username) {
@@ -24,6 +32,10 @@ export async function createFolder(folder_name, username) {
   }
 }
 
+/**
+ * @summary Check if the user has a folder associated with them. If not, create a folder for them 
+ * @param username username of user
+ */
 export async function checkUserFolder(username) {
   const directory = `${cwd()}/Data/${username}/`;
   try {
@@ -40,6 +52,11 @@ export async function checkUserFolder(username) {
   }
 }
 
+/**
+ * @summary Delete the folder with a folder name that is associated to the user along with its file contents inside  
+ * @param {string} folder_name name of the folder
+ * @param {string} username username of the user 
+ */
 export async function deleteFolder(folder_name, username) {
   const directory = `${cwd()}/Data/${username}/${folder_name}`;
   console.log("directory - ", directory);
@@ -55,6 +72,12 @@ export async function deleteFolder(folder_name, username) {
   }
 }
 
+/**
+ * @summary Renames the folder 
+ * @param {string} folder_name name of the folder
+ * @param {string} new_name new name of the folder
+ * @param {string} username username of the user
+ */
 export async function renameFolder(folder_name, new_name, username) {
   const directory = `${cwd()}/Data/${username}/${folder_name}`;
   const newDirName = `${cwd()}/Data/${username}/${new_name}`;
@@ -70,12 +93,14 @@ export async function renameFolder(folder_name, new_name, username) {
 }
 
 /**
- * Gets the file name associated with username under a certain folder_name
+ * @summary Reads the file from the file system and prepare to send to the client 
+ * @description  Gets the file name associated with username under a certain folder_name
  * Provide the following infomration:
  * - File Size in Mbs
  * - File contents
- * @param {string} folder_name name of the folder where the file resides
+ * @param {string} file_name name of the file 
  * @param {string} username name of the username associated with the file
+ * @param {string} folder_name name of the folder where the file resides
  */
 export async function getFile(file_name, username, folder_name) {
   const file = `${cwd()}/Data/${username}/${folder_name}/${file_name}`;
@@ -126,6 +151,10 @@ export async function getFile(file_name, username, folder_name) {
   }
 }
 
+/**
+ * @summary Given the extension string, return the mime-type
+ * @param {string} extension - extension of the file 
+ */
 function findFileType(extension) {
   switch (extension) {
     case ".jpeg":
@@ -148,14 +177,13 @@ function findFileType(extension) {
 }
 
 /**
- * Deletes a file that belongs to a folder that belongs to a user
+ * @summary Deletes the file from its path  
  * @param {string} file_name the file to be deleted
  * @param {string} folder_name the folder that contains the file
  * @param {string} username the user that owns both the file and folder
  */
 export async function deleteFile(file_name, folder_name, username) {
   try {
-    // figure ouut why it deleted the folders
     const path = `${cwd()}/Data/${username}/${folder_name}/${file_name}`;
     console.log("PATH BEING DELETED:", path);
     await fs.unlink(path);
