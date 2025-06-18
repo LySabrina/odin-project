@@ -1,0 +1,41 @@
+@import "./mixin";
+
+.general-info {
+  position: relative;
+
+  &__name {
+    font-weight: bold;
+    text-align: center;
+    @include marginTopBottom;
+  }
+  &__list {
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row;
+    list-style: none;
+  }
+  &__group {
+    flex: 2;
+    .list {
+      display: flex;
+      justify-content: space-evenly;
+
+      list-style: none;
+    }
+  }
+
+  &__edit {
+    align-self: center;
+    padding: 1em;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+
+  .form {
+    
+   .general-info__name{
+    margin: 1rem auto;
+   }
+  }
+}

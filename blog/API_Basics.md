@@ -76,4 +76,7 @@ So how can we fix this? Enable Cross-Origin Resource Sharing (CORS)
 When setting up CORS, make your server only accept origin from your frontend server. Block other origins. 
 
 ## CORS
+Cross Origin Resource Sharing - allows you to share resources across different protocol, hostname, and port.
+
+
 

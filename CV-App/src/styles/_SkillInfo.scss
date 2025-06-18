@@ -1,0 +1,17 @@
+.skill-info {
+  &__list {
+    list-style: none;
+    display: flex;
+
+    &-item {
+      margin-right: 0.5rem;
+    }
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+
+    &-btns {
+    }
+  }
+}

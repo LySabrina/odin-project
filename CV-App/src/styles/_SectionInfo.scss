@@ -1,0 +1,18 @@
+.section {
+  &__title {
+    display: inline-block;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  &__list-item {
+    &-info {
+      display: flex;
+    }
+    &-title {
+      font-weight: bold;
+    }
+    &-date {
+      margin-left: auto;
+    }
+  }
+}

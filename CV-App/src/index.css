@@ -1,0 +1,21 @@
+@font-face {
+  font-family: "NotoSans";
+  src: url("./fonts/NotoSans-VariableFont_wdth\,wght.ttf") ;
+}
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: NotoSans;
+}
+
+body {
+  background-color:  hsl(222, 26%, 31%);
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
